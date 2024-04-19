@@ -1,27 +1,32 @@
 const express = require("express");
+const Recipe = require("../models/recipeModel");
+const router = express.Router();
+
 const {
-  getRecipes,
-  getRecipe,
   createRecipe,
+  getRecipe,
+  getRecipes,
   deleteRecipe,
   updateRecipe,
 } = require("../controllers/recipeController");
 
-const router = express.Router();
+const requireAuth = require("../middleware/requireAuth");
 
-// GET all recipes
+router.use(requireAuth);
+
+// Get all recipes
 router.get("/", getRecipes);
 
-// GET a single recipe
+// Get a specific recipe
 router.get("/:id", getRecipe);
 
 // POST a new recipe
 router.post("/", createRecipe);
 
-// DELETE a recipe
+// Delete a recipe
 router.delete("/:id", deleteRecipe);
 
-// UPDATE a recipe
+// Update a recipe
 router.patch("/:id", updateRecipe);
 
 module.exports = router;

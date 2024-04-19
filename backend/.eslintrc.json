@@ -1,0 +1,11 @@
+{
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+    "plugins": ["node"],
+    "parserOptions": {
+      "ecmaVersion": 2021
+    },
+    "rules": {
+      "prettier/prettier": "warn"
+    }
+  }
+  

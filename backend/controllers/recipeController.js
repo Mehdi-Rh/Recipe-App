@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 
 // get all recipes
 const getRecipes = async (req, res) => {
-  const recipes = await Recipe.find({}).sort({ createdAt: -1 });
-
+  const user_id = req.user._id;
+  const recipes = await Recipe.find({ user_id }).sort({ createdAt: -1 });
   res.status(200).json(recipes);
 };
 
@@ -25,7 +25,7 @@ const getRecipe = async (req, res) => {
   res.status(200).json(recipe);
 };
 
-// create a new recipe
+// create new recipe
 const createRecipe = async (req, res) => {
   const { name, preparation_time, cooking_time, description, public } =
     req.body;
@@ -54,8 +54,6 @@ const createRecipe = async (req, res) => {
   }
 
   // add to the database
-  console.log({ user: req.user });
-
   try {
     const user_id = req.user._id;
     const recipe = await Recipe.create({
@@ -75,7 +73,6 @@ const createRecipe = async (req, res) => {
 // delete a recipe
 const deleteRecipe = async (req, res) => {
   const { id } = req.params;
-
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "No such recipe" });
   }
